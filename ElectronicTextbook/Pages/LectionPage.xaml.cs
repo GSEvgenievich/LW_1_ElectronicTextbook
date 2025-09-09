@@ -66,5 +66,15 @@ namespace ElectronicTextbook.Pages
         {
             CurrentImage = new BitmapImage(new Uri($"pack://application:,,,/Images/{imageName}.png"));
         }
+
+        private void BackButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.CurrentFrame.Navigate(new LectionsNavigatorPage());
+        }
+
+        private void ToTestButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.CurrentFrame.Navigate(new TestPage(SelectedLection.LectionId));
+        }
     }
 }

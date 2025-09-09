@@ -10,23 +10,24 @@
     <DockPanel Background="#FFFDD0">
         <Grid DockPanel.Dock="Top" Height="40" Background="#556B2F">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            
+            <Button x:Name="BackButton" Content="Назад" Margin="0,5,10,5" Padding="10,2" VerticalAlignment="Center" Click="BackButton_Click"/>
 
-            <TextBlock Text="Информатика рядом" VerticalAlignment="Center" 
-            Margin="10,0" Foreground="#FFFDD0" FontWeight="Bold" FontSize="16"/>
-
-            <TextBlock Text="{Binding UserLoginText}" Grid.Column="1" VerticalAlignment="Center" 
-            Margin="0,0,10,0" Foreground="#FFFDD0" FontWeight="SemiBold" />
-
-            <Button Grid.Column="2" Content="Личный кабинет" Margin="0,5,10,5" Padding="10,2"
-            VerticalAlignment="Center" />
+            <TextBlock Text="{Binding UserLoginText}" Grid.Column="2" VerticalAlignment="Center" 
+            Margin="0,0,10,0" Foreground="#FFFDD0" FontWeight="SemiBold"/>
         </Grid>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedLection.Theme.ThemeName}" Margin="15 5" FontWeight="Bold" FontSize="24" Foreground="#556B2F"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedLection.LectionName}" Margin="15 5" FontWeight="Bold" FontSize="20" Foreground="#556B2F"/>
-        <Image DockPanel.Dock="Top" Source="{Binding CurrentImage}" HorizontalAlignment="Left" Width="350" Height="200" Margin="15"/>
-        <TextBlock VerticalAlignment="Top" Margin="15 0" Text="{Binding SelectedLection.LectionText}" FontWeight="Bold" FontSize="14" Foreground="#556B2F" TextWrapping="Wrap"/>
+        <Button x:Name="ToTestButton" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Content="К тесту" Margin="5" Padding="15 5" Click="ToTestButton_Click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="15">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedLection.Theme.ThemeName}" Margin="0 5" FontWeight="Bold" FontSize="24" Foreground="#556B2F"/>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedLection.LectionName}" Margin="0 5" FontWeight="Bold" FontSize="20" Foreground="#556B2F"/>
+                <Image DockPanel.Dock="Top" Source="{Binding CurrentImage}" HorizontalAlignment="Left" Width="350" Height="200" Margin="15"/>
+                <TextBlock VerticalAlignment="Top" Margin="15 0" Text="{Binding SelectedLection.LectionText}" FontWeight="Bold" FontSize="14" Foreground="#556B2F" TextWrapping="Wrap"/>
+            </DockPanel>
+        </ScrollViewer>
     </DockPanel>
 </Page>
