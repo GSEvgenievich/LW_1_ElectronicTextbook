@@ -13,7 +13,7 @@ public partial class Lection
 
     public string LectionText { get; set; } = null!;
 
-    public DateOnly? LectionDate { get; set; }
+    public DateOnly LectionDate { get; set; }
 
     public int ThemeId { get; set; }
 

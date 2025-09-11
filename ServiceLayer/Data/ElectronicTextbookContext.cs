@@ -22,6 +22,8 @@ public partial class ElectronicTextbookContext : DbContext
 
     public virtual DbSet<Question> Questions { get; set; }
 
+    public virtual DbSet<QuestionsResult> QuestionsResults { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Test> Tests { get; set; }
@@ -34,7 +36,7 @@ public partial class ElectronicTextbookContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=mssql;Database=ispp2102;User Id=ispp2102;Password=2102;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=ispp2102;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,23 +68,21 @@ public partial class ElectronicTextbookContext : DbContext
                 .HasForeignKey(d => d.TestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Questions_Tests");
+        });
 
-            entity.HasMany(d => d.AnswersNavigation).WithMany(p => p.Questions)
-                .UsingEntity<Dictionary<string, object>>(
-                    "CorrectAnswer",
-                    r => r.HasOne<Answer>().WithMany()
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_CorrectAnswers_Answers"),
-                    l => l.HasOne<Question>().WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_CorrectAnswers_Questions"),
-                    j =>
-                    {
-                        j.HasKey("QuestionId", "AnswerId");
-                        j.ToTable("CorrectAnswers");
-                    });
+        modelBuilder.Entity<QuestionsResult>(entity =>
+        {
+            entity.HasKey(e => new { e.QuestionId, e.UserId });
+
+            entity.HasOne(d => d.Question).WithMany(p => p.QuestionsResults)
+                .HasForeignKey(d => d.QuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_QuestionsResults_Questions");
+
+            entity.HasOne(d => d.User).WithMany(p => p.QuestionsResults)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_QuestionsResults_Users");
         });
 
         modelBuilder.Entity<Role>(entity =>

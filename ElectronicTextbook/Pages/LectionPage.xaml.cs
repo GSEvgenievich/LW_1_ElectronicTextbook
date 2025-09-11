@@ -74,7 +74,7 @@ namespace ElectronicTextbook.Pages
 
         private void ToTestButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            App.CurrentFrame.Navigate(new TestPage(SelectedLection.LectionId));
+            App.CurrentFrame.Navigate(new TestPage(SelectedLection));
         }
     }
 }

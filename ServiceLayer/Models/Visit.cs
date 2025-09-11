@@ -9,7 +9,7 @@ public partial class Visit
 
     public int UserId { get; set; }
 
-    public int VisitTime { get; set; }
+    public int? VisitTime { get; set; }
 
     public virtual Lection Lection { get; set; } = null!;
 

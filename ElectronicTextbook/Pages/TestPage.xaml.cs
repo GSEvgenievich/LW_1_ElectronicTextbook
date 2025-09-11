@@ -1,35 +1,25 @@
-﻿using ServiceLayer.Models;
+﻿using ServiceLayer;
+using ServiceLayer.DTOs;
+using ServiceLayer.Models;
 using ServiceLayer.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ElectronicTextbook.Pages
 {
     /// <summary>
     /// Логика взаимодействия для TestPage.xaml
     /// </summary>
-    public partial class TestPage : Page
+    public partial class TestPage : Page, INotifyPropertyChanged
     {
         public static readonly TestService _testService = new();
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private ObservableCollection<Lection> _testQuestions;
-        public ObservableCollection<Lection> TestQuestions
+        private ObservableCollection<QuestionDTO> _testQuestions;
+        public ObservableCollection<QuestionDTO> TestQuestions
         {
             get => _testQuestions;
             set
@@ -69,33 +59,56 @@ namespace ElectronicTextbook.Pages
             }
         }
 
-        public Lection _selectedLection { get; set; }
-        public Lection SelectedLection
-        {
-            get => _selectedLection;
-            set
-            {
-                if (_selectedLection != value)
-                {
-                    _selectedLection = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         protected void OnPropertyChanged([CallerMemberName] string propName = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
-        public TestPage(int lectionId)
+        public Lection Lection { get; set; }
+        public Test Test { get; set; }
+
+        public TestPage(Lection lection)
         {
             InitializeComponent();
-            LoadTestAsync(lectionId);
+            DataContext = this;
+            UserLoginText = $"Пользователь: {CurrentUser.UserLogin}";
+            Lection = lection;
         }
 
-        private async Task LoadTestAsync(int lectionId)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Test test = await _testService.GetTestByIdAsync(lectionId);
-            TestName = 
+            await LoadTestAsync();
+        }
+
+        private async Task LoadTestAsync()
+        {
+            Test = await _testService.GetTestByLectionIdAsync(Lection.LectionId);
+            TestName = await _testService.GetTestNameAsync(Test);
+            TestQuestions = new ObservableCollection<QuestionDTO>();
+            foreach (Question question in Test.Questions)
+            {
+                QuestionDTO questionDTO = new QuestionDTO()
+                {
+                    QuestionId = question.QuestionId,
+                    QuestionText = question.QuestionText,
+                    Answers = question.Answers,
+                    TestId = question.TestId
+                };
+                TestQuestions.Add(questionDTO);
+            }
+        }
+
+        private void ToLectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.CurrentFrame.Navigate(new LectionPage(Lection));
+        }
+
+        private void ToNavigatorButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.CurrentFrame.Navigate(new LectionsNavigatorPage());
+        }
+
+        private void FinishTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.CurrentFrame.Navigate(new TestResultPage(Test));
         }
     }
 }

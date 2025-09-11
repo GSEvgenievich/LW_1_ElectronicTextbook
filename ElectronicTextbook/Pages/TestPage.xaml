@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ElectronicTextbook.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Авторизация">
+      Title="Авторизация" Loaded="Page_Loaded">
     <DockPanel Background="#FFFDD0">
         <Grid DockPanel.Dock="Top" Height="40" Background="#556B2F">
             <Grid.ColumnDefinitions>
@@ -16,10 +16,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="ToLectionButton" Content="К лекции" Margin="0,5,10,5" 
-                    Padding="10,2" VerticalAlignment="Center"/>
-            <Button x:Name="ToNavigatorButton" Content="На главную" Grid.Column="1" Margin="0,5,10,5" 
-                    Padding="10,2" VerticalAlignment="Center"/>
+            <Button x:Name="ToLectionButton" Content="К лекции" Margin="5" 
+                    Padding="10,2" VerticalAlignment="Center" Click="ToLectionButton_Click"/>
+            <Button x:Name="ToNavigatorButton" Content="На главную" Grid.Column="1" Margin="5" 
+                    Padding="10,2" VerticalAlignment="Center" Click="ToNavigatorButton_Click"/>
             <TextBlock Text="{Binding UserLoginText}" Grid.Column="3" 
                        VerticalAlignment="Center" Margin="0,0,10,0" 
                        Foreground="#FFFDD0" FontWeight="SemiBold"/>
@@ -29,15 +29,12 @@
                    Margin="15 5" FontWeight="Bold" FontSize="24" 
                    Foreground="#556B2F"/>
 
-
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" 
-                    HorizontalAlignment="Center" Margin="5">
-            <Button x:Name="BackButton" Content="Завершить тест" Padding="15 5" Margin="5"/>
-            <Button x:Name="CheckButton" Content="Проверить ответы" Padding="15 5" Margin="5"/>
-        </StackPanel>
+        <Border DockPanel.Dock="Top" Height="5" Background="#556B2F" Margin="5 0" CornerRadius="5"/>
+        <Button x:Name="FinishTestButton" DockPanel.Dock="Bottom" Content="Завершить тест" Padding="15 5" HorizontalAlignment="Right" Margin="5" Click="FinishTestButton_Click"/>
+        <Border DockPanel.Dock="Bottom" Height="5" Background="#556B2F" Margin="5 0" CornerRadius="5"/>
         
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="15">
-            <StackPanel x:Name="QuestionsPanel" Margin="10">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="15 0">
+            <StackPanel x:Name="QuestionsPanel" Margin="10 0">
                 <ItemsControl ItemsSource="{Binding TestQuestions}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -46,14 +43,15 @@
                                            FontWeight="Bold" FontSize="16" 
                                            Foreground="#556B2F"/>
                                 <ListBox x:Name="AnswersList" 
-                                        ItemsSource="{Binding Answers}" 
-                                        SelectionMode="Single" 
-                                        SelectedItem="{Binding SelectedAnswer}">
+                                        ItemsSource="{Binding Answers}"
+                                        SelectionMode="Single"
+                                        SelectedItem="{Binding SelectedAnswer, Mode=TwoWay}" 
+                                        Margin="0 0 30 0">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <RadioButton Content="{Binding AnswerText}" 
-                                                         GroupName="{Binding QuestionId}" 
-                                                         IsChecked="{Binding IsSelected}"/>
+                                                         GroupName="{Binding QuestionId}"
+                                                         IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}" />
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>

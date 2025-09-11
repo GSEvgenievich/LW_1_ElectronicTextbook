@@ -6,24 +6,19 @@
       xmlns:local="clr-namespace:ElectronicTextbook.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="LectionsNavigatorPage">
+      Title="LectionsNavigatorPage" Loaded="Page_Loaded">
 
     <DockPanel Background="#FFFDD0">
-        <!-- Кремовый фон для всей страницы -->
-        <!-- Верхняя панель -->
         <Grid DockPanel.Dock="Top" Height="40" Background="#556B2F">
-            <!-- Оливковый фон -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Название слева -->
             <TextBlock Text="Информатика рядом" VerticalAlignment="Center" 
                    Margin="10,0" Foreground="#FFFDD0" FontWeight="Bold" FontSize="16"/>
 
-            <!-- Логин пользователя справа -->
             <TextBlock Text="{Binding UserLoginText}" Grid.Column="1" VerticalAlignment="Center" 
                    Margin="0,0,10,0" Foreground="#FFFDD0" FontWeight="SemiBold" />
 

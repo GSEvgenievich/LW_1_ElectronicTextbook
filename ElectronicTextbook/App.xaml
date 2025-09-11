@@ -11,7 +11,7 @@
             <!-- Оливковый текст -->
         </Style>
         <Style TargetType="Button">
-            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="Background" Value="#CD853F"/>
             <!-- Терракотовый фон -->

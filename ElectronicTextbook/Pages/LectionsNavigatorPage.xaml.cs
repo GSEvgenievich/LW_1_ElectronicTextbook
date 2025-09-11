@@ -94,8 +94,12 @@ namespace ElectronicTextbook.Pages
         {
             InitializeComponent();
             DataContext = this;
-            LoadThemes();
             UserLoginText = $"Пользователь: {CurrentUser.UserLogin}";
+        }
+
+        private async void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            await LoadThemes();
         }
 
         public async Task LoadThemes()
